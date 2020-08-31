@@ -5,49 +5,49 @@ import { Table } from 'antd';
 
 const data = [{
   key: 1,
-  name: 'John Brown sr.',
+  name: '分组1',
   age: 60,
   address: 'New York No. 1 Lake Park',
   children: [{
     key: 11,
-    name: 'John Brown',
+    name: '分组1-1',
     age: 42,
     address: 'New York No. 2 Lake Park',
   }, {
     key: 12,
-    name: 'John Brown jr.',
+    name: '分组1-2',
     age: 30,
     address: 'New York No. 3 Lake Park',
     children: [{
       key: 121,
-      name: 'Jimmy Brown',
+      name: '分组1-2-1',
       age: 16,
       address: 'New York No. 3 Lake Park',
     }],
   }, {
     key: 13,
-    name: 'Jim Green sr.',
+    name: '分组1-3',
     age: 72,
     address: 'London No. 1 Lake Park',
     children: [{
       key: 131,
-      name: 'Jim Green',
+      name: '分组1-3-1',
       age: 42,
       address: 'London No. 2 Lake Park',
       children: [{
         key: 1311,
-        name: 'Jim Green jr.',
+        name: '分组1-3-1-1',
         age: 25,
         address: 'London No. 3 Lake Park',
       }, {
         key: 1312,
-        name: 'Jimmy Green sr.',
+        name: '分组1-3-1-2',
         age: 18,
         address: 'London No. 4 Lake Park',
         children: [
           {
             key: 131211,
-            name: 'xxx',
+            name: '分组1-3-1-2-1-1',
             age: 18,
             address: 'London No. 5 Lake Park',
           }
@@ -57,7 +57,7 @@ const data = [{
   }],
 }, {
   key: 2,
-  name: 'Joe Black',
+  name: '分组2',
   age: 32,
   address: 'Sidney No. 1 Lake Park',
 }];
@@ -121,8 +121,12 @@ class antForm extends React.Component{
         } else {
           // 删除操作
           if(flag && pData.key){
-            this.private.pKeys.push(pData.key);
             const newArr = selectedRows.filter(s => s !== pData.key);
+            // 如果被选中的key没有父元素的key，就不需要再往上循环了
+            if(newArr.length === selectedRows.length){
+              return false;
+            }
+            this.private.pKeys.push(pData.key);
             this.searchParent({children: data}, pData.key, newArr, isAdd);
           }
         }
